@@ -30,6 +30,10 @@ func main(){
 	cmd.register("register", handlerRegister)
 	cmd.register("reset", handlerReset)
 	cmd.register("users", handlerGetUsers)
+	cmd.register("agg", handlerAgg)
+	cmd.register("addfeed", handlerAddFeed)
+	cmd.register("feeds", handlerFeeds)
+
 
 	arguments := command{
 		argumets: os.Args,
@@ -59,3 +63,5 @@ func main(){
 
 
 }
+
+

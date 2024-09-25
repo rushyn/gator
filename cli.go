@@ -113,3 +113,79 @@ func handlerGetUsers(s *state, cmd command) error {
 	}
 	return nil
 }
+
+func handlerAgg(s *state, cmd command) error {
+	if len(cmd.argumets) < 3 {
+		cmd.argumets = append(cmd.argumets, "https://www.wagslane.dev/index.xml")
+		//return errors.New("no url given")
+	}
+
+	ctx := context.Background()
+	rss, err := fetchFeed(ctx, cmd.argumets[2])
+	if err != nil {
+		return err
+	}
+	
+	fmt.Println(rss)
+
+	return nil
+}
+
+
+func handlerAddFeed(s *state, cmd command) error {
+	if len(cmd.argumets) < 4 {
+		return errors.New("no url given")
+	}
+
+	if len(cmd.argumets) < 3 {
+		return errors.New("no feed name given")
+	}
+
+	ctx := context.Background()
+	logedInUser, err := s.db.CheckUser(ctx, s.config.Current_User_Name)
+	if err != nil {
+		return errors.New("loged in user not found in database")
+	}
+
+	newUUID, err := uuid.NewRandom()
+	if err != nil {
+		return err
+	}
+	feedAdd := database.CreateFeedParams{
+		ID:        newUUID,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		Name:      cmd.argumets[2],
+		Url:       cmd.argumets[3],
+		UserID:    logedInUser.ID,
+	}
+	
+	feed, err := s.db.CreateFeed(ctx, feedAdd)
+	if err != nil {
+		return errors.New("unable to create feed")
+	}
+
+	rss, err := fetchFeed(ctx, feed.Url)
+	if err != nil {
+		return err
+	}
+	
+	for _, feed := range rss.Channel.Item{
+		fmt.Println(feed)
+	}
+	return nil
+}
+
+
+func handlerFeeds (s *state, cmd command) error {
+	ctx := context.Background()
+	feeds, err := s.db.ReturnAllFeeds(ctx)
+	if err != nil {
+		return errors.New("unable to get feeds")
+	}
+
+	for _, feed := range feeds{
+		fmt.Printf("Feed %s URL is %s and was created by %s.\n", feed.Feedname, feed.Url, feed.Username)
+	}
+	return nil
+}
