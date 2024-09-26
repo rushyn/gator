@@ -116,8 +116,7 @@ func handlerGetUsers(s *state, cmd command) error {
 
 func handlerAgg(s *state, cmd command) error {
 	if len(cmd.argumets) < 3 {
-		cmd.argumets = append(cmd.argumets, "https://www.wagslane.dev/index.xml")
-		//return errors.New("no url given")
+		return errors.New("no url given")
 	}
 
 	ctx := context.Background()
@@ -132,7 +131,7 @@ func handlerAgg(s *state, cmd command) error {
 }
 
 
-func handlerAddFeed(s *state, cmd command) error {
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.argumets) < 4 {
 		return errors.New("no url given")
 	}
@@ -142,10 +141,10 @@ func handlerAddFeed(s *state, cmd command) error {
 	}
 
 	ctx := context.Background()
-	logedInUser, err := s.db.CheckUser(ctx, s.config.Current_User_Name)
-	if err != nil {
-		return errors.New("loged in user not found in database")
-	}
+	// logedInUser, err := s.db.CheckUser(ctx, s.config.Current_User_Name)
+	// if err != nil {
+	// 	return errors.New("loged in user not found in database")
+	// }
 
 	newUUID, err := uuid.NewRandom()
 	if err != nil {
@@ -157,7 +156,7 @@ func handlerAddFeed(s *state, cmd command) error {
 		UpdatedAt: time.Now(),
 		Name:      cmd.argumets[2],
 		Url:       cmd.argumets[3],
-		UserID:    logedInUser.ID,
+		UserID:    user.ID,
 	}
 	
 	feed, err := s.db.CreateFeed(ctx, feedAdd)
@@ -173,7 +172,13 @@ func handlerAddFeed(s *state, cmd command) error {
 	for _, feed := range rss.Channel.Item{
 		fmt.Println(feed)
 	}
-	return nil
+
+	c := command{
+		argumets: []string{"", "", cmd.argumets[3]},
+	}
+
+	return handlerFollow(s, c, user)
+
 }
 
 
@@ -187,5 +192,73 @@ func handlerFeeds (s *state, cmd command) error {
 	for _, feed := range feeds{
 		fmt.Printf("Feed %s URL is %s and was created by %s.\n", feed.Feedname, feed.Url, feed.Username)
 	}
+	return nil
+}
+
+func handlerFollow (s *state, cmd command, user database.User) error {
+	if len(cmd.argumets) < 3 {
+		return errors.New("no url to follow was given")
+	}
+	ctx := context.Background()
+	feed, err := s.db.GetFeed(ctx, cmd.argumets[2])
+	if err != nil {
+		return errors.New("unable to get find feed")
+	}
+	// user, err := s.db.CheckUser(ctx, s.config.Current_User_Name)
+	// if err != nil {
+	// 	return errors.New("loged in user not found in database")
+	// }
+	newUUID, err := uuid.NewRandom()
+	if err != nil {
+		return err
+	}
+	addFollow := database.CreateFeedFollowParams{
+		ID:        newUUID,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		UserID:    user.ID,
+		FeedID:    feed.ID,
+	}
+	
+	feedRow, err := s.db.CreateFeedFollow(ctx, addFollow)
+	if err != nil {
+		return errors.New("unable to create feed")
+	}
+	fmt.Printf("User: %s has subscribed to Feed: %s !!!\n", feedRow.UserName, feedRow.FeedName)
+
+
+	return nil
+}
+
+
+
+func handlerFollowing (s *state, cmd command) error {
+	ctx := context.Background()
+	feeds, err := s.db.GetFeedFollowsForUser(ctx, s.config.Current_User_Name)
+	if err != nil {
+		return errors.New("unable to get feeds")
+	}
+
+	fmt.Println("You are fallwoing this feeds.")
+	for _, feed := range feeds{
+		fmt.Printf("%s \n", feed.FeedName)
+	}
+	return nil
+}
+
+func handlerUnfollow (s *state, cmd command) error{
+	if len(cmd.argumets) < 3 {
+		return errors.New("no feed url given")
+	}
+	dbU := database.UnfollowParams{
+		Name: s.config.Current_User_Name,
+		Url: cmd.argumets[2],
+	}
+	err := s.db.Unfollow(context.Background(), dbU)
+	if err != nil {
+		fmt.Println(err)
+		return errors.New("unable to unfollow")
+	}
+
 	return nil
 }
