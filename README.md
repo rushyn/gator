@@ -155,7 +155,7 @@ Unsubscribe from a feed.
 
 #### **browse**
 
-Return a list of most recently updated articles.
+Return a list of most recently updated articles you are following.
 > **gator browse #***(number of articles you want to see)*
 
 
