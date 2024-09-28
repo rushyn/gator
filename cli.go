@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/google/uuid"
@@ -116,18 +117,29 @@ func handlerGetUsers(s *state, cmd command) error {
 
 func handlerAgg(s *state, cmd command) error {
 	if len(cmd.argumets) < 3 {
-		return errors.New("no url given")
+		return errors.New("no pooling inteval was givne, interval needs to be 1s, 1m, 1h")
 	}
 
-	ctx := context.Background()
-	rss, err := fetchFeed(ctx, cmd.argumets[2])
-	if err != nil {
-		return err
+	if cmd.argumets[2] == "1s" || cmd.argumets[2] == "1m" || cmd.argumets[2] == "1h" {
+	}else{
+		return errors.New("invalid polling inteveal uspplied, should be 1s, 1m, 1h")
 	}
-	
-	fmt.Println(rss)
 
-	return nil
+	var timeBetweenRequests time.Duration
+
+	if cmd.argumets[2] == "1s" {
+		timeBetweenRequests = time.Duration(1 * time.Second)
+	}else if cmd.argumets[2] == "1m" {
+		timeBetweenRequests = time.Duration(1 * time.Minute)
+	}else if cmd.argumets[2] == "1h"{
+		timeBetweenRequests = time.Duration(1 * time.Hour)
+	}
+
+	ticket := time.NewTicker(timeBetweenRequests)
+
+	for ; ; <-ticket.C{
+		scrapeFeeds(s)
+	}
 }
 
 
@@ -141,10 +153,6 @@ func handlerAddFeed(s *state, cmd command, user database.User) error {
 	}
 
 	ctx := context.Background()
-	// logedInUser, err := s.db.CheckUser(ctx, s.config.Current_User_Name)
-	// if err != nil {
-	// 	return errors.New("loged in user not found in database")
-	// }
 
 	newUUID, err := uuid.NewRandom()
 	if err != nil {
@@ -204,10 +212,6 @@ func handlerFollow (s *state, cmd command, user database.User) error {
 	if err != nil {
 		return errors.New("unable to get find feed")
 	}
-	// user, err := s.db.CheckUser(ctx, s.config.Current_User_Name)
-	// if err != nil {
-	// 	return errors.New("loged in user not found in database")
-	// }
 	newUUID, err := uuid.NewRandom()
 	if err != nil {
 		return err
@@ -259,6 +263,45 @@ func handlerUnfollow (s *state, cmd command) error{
 		fmt.Println(err)
 		return errors.New("unable to unfollow")
 	}
+
+	return nil
+}
+
+
+func handlerBrowse (s *state, cmd command) error{
+	var limit int
+	if len(cmd.argumets) < 3 {
+		limit = 2
+	}else{
+		var err error
+		limit, err = strconv.Atoi(cmd.argumets[2])
+		if err != nil {
+			return err
+		}		
+	}
+
+	feed, err := s.db.GetPostsForUser(context.Background(), database.GetPostsForUserParams{
+		Name:  s.config.Current_User_Name,
+		Limit: int32(limit),
+	})
+	if err != nil{
+		return err
+	}
+
+	for i, item := range feed{
+		fmt.Printf("\n this is the item number %v \n", i + 1)
+		fmt.Printf("Post iD is %s \n", item.ID)
+		fmt.Printf("This post was created at %s \n", item.CreatedAt)
+		fmt.Printf("This post was update at %s \n", item.UpdatedAt)
+		fmt.Printf("The time is --- %s \n", item.Title)
+		fmt.Printf("The URL is %s \n", item.Url)
+		fmt.Printf("\nDescription \n %s \n\n", item.Desription)
+		fmt.Printf("It was published on %s \n", item.PublishedAt)
+		fmt.Printf("And its part of feed %s \n", item.FeedID)
+	}
+
+	
+
 
 	return nil
 }

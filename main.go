@@ -36,6 +36,7 @@ func main(){
 	cmd.register("follow", middlewareLoggedIn(handlerFollow))
 	cmd.register("following", handlerFollowing)
 	cmd.register("unfollow", handlerUnfollow)
+	cmd.register("browse", handlerBrowse)
 
 
 
@@ -53,9 +54,6 @@ func main(){
 		config: &conf,
 		db: db,
 	}
-
-
-
 
 
 
