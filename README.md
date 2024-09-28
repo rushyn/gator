@@ -62,7 +62,7 @@ Run this command
 
 >goose postgres "postgres://postgres:postgres@localhost:5432/gator?sslmode=disable" up
 
-go back to root of the repository open and look at  .gatorconfig.json modify the {"db_url" value if necessary. Copy .gatorconfig.json to home directly for windows its %userprofile%.
+go back to root of the repository open and look at  .gatorconfig.json modify the "db_url" value if necessary. Copy .gatorconfig.json to home directly for windows its %userprofile%.
 
 Now simply type 
 
@@ -83,7 +83,7 @@ Now simply type
 4.      Aggregate the feeds: note that the feeds will be continually polled unit stopped “CTRL+C”. Polling interval valid arguments are 1s, 1m, 1h.
 > 		gator agg 1s
 
-5.      Browse your feed browse has an optional argument of number of feeds you’d like to see.
+5.      Browse your feed browse has an optional argument of number of feeds you’d like to see. It will default to 2 if no value is given.
 > 		gator browse 5
 
 Remember if you want to clear the database use the “gator reset”, there is no going back after reset. The data in data base will be erased.
@@ -91,48 +91,59 @@ Remember if you want to clear the database use the “gator reset”, there is n
 
 ### **Full list of commands**
 
-##### **register**
+#### **register**
 
-Registers a new user, **gator register user**
+Registers a new user.
+>**gator register user**
 
-##### **login**
+#### **login**
 
-Login as registered user, **gator login user**
+Login as registered user.
+>**gator login user**
 
-##### **Addfeed**
+#### **Addfeed**
 
-Adds a new feed and subscribes the current user to it, **gator  “feed name” “feed url”**
+Adds a new feed and subscribes the current user to it.
+>**gator  “feed name” “feed url”**
 
-##### **feeds**
+#### **feeds**
 
-Shows a list of available feeds, **gator feeds**
+Shows a list of available feeds.
+>**gator feeds**
 
-##### **follow**
+#### **follow**
 
-Subscribes current user to a registered feed, **gator follow “url”**
+Subscribes current user to a registered feed.
+>**gator follow “url”**
 
-##### **following**
+#### **following**
 
-Get a list of feeds you are subscribing to, **gator following**
+Get a list of feeds you are subscribing to.
+>**gator following**
 
-##### **users**
+#### **users**
 
-Get a list of users, **gator users**
+Get a list of users.
+>**gator users**
 
-##### **agg**
+#### **agg**
 
-Aggregate feeds must be done before browsing, **gator agg 1s, or 1m, or 1h**
+Aggregate feeds must be done before browsing
+>**gator agg 1s, or 1m, or 1h**
 
-##### **unfollow**
+#### **unfollow**
 
-Unsubscribe from a feed, **gator unfollow “url”**
+Unsubscribe from a feed.
+>**gator unfollow “url”**
 
-##### **browse**
+#### **browse**
 
-return a list of most recently updated articles, **gator browse #***(number of articles you want to see)*
+Return a list of most recently updated articles.
+> **gator browse #***(number of articles you want to see)*
 
-##### **reset**
+#### **reset**
 
-wipe the database, **gator reset**
+wipe the database.
+>**gator reset**
 
 
