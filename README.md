@@ -18,7 +18,10 @@ https://go.dev/dl/
 
 [https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
+
+
 ### **Setup**
+
 
 #### **PostgreSQL**
 
@@ -69,6 +72,8 @@ Now simply type
 >go install
 
 
+
+
 ### Usage
 
 1.      First register yourself as a user.
@@ -89,57 +94,70 @@ Now simply type
 Remember if you want to clear the database use the “gator reset”, there is no going back after reset. The data in data base will be erased.
 
 
+
+
 ### **Full list of commands**
+
 
 #### **register**
 
 Registers a new user.
 >**gator register user**
 
+
 #### **login**
 
 Login as registered user.
 >**gator login user**
+
 
 #### **Addfeed**
 
 Adds a new feed and subscribes the current user to it.
 >**gator  “feed name” “feed url”**
 
+
 #### **feeds**
 
 Shows a list of available feeds.
 >**gator feeds**
+
 
 #### **follow**
 
 Subscribes current user to a registered feed.
 >**gator follow “url”**
 
+
 #### **following**
 
 Get a list of feeds you are subscribing to.
 >**gator following**
+
 
 #### **users**
 
 Get a list of users.
 >**gator users**
 
+
 #### **agg**
 
 Aggregate feeds must be done before browsing
 >**gator agg 1s, or 1m, or 1h**
+
 
 #### **unfollow**
 
 Unsubscribe from a feed.
 >**gator unfollow “url”**
 
+
 #### **browse**
 
 Return a list of most recently updated articles.
 > **gator browse #***(number of articles you want to see)*
+
 
 #### **reset**
 
