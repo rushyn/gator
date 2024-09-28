@@ -14,6 +14,8 @@ https://go.dev/dl/
 
 **Download and install both for your Operating System**
 
+*During the install of PostgreSQL make sure to record the default password you will need it latter.*
+
 **Clone this repository to your machine you can find inactions on how to do this here.**
 
 [https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
@@ -155,7 +157,7 @@ Unsubscribe from a feed.
 
 #### **browse**
 
-Return a list of most recently updated articles you are following.
+Return a list of most recently updated articles.
 > **gator browse #***(number of articles you want to see)*
 
 
