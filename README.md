@@ -1,6 +1,6 @@
 # Gator
-Blog Aggregator  boot.dev guided project
-Is a CLI tool for rss feed aggregation it is Operating System Agnostic.
+
+Gator is a boot.dev guided project. It is a CLI tool for rss feed aggregation. Gator is Operating System Agnostic.
 
 #### Requirements
 
@@ -18,7 +18,7 @@ https://go.dev/dl/
 
 [https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
-#### **Setup**
+### **Setup**
 
 #### **PostgreSQL**
 
@@ -66,71 +66,70 @@ go back to root of the repository open and look at  .gatorconfig.json modify th
 
 Now simply type “go install”
 
-#### Usage
+### Usage
 
 1.      First register yourself as a user.
-		gator register %name%
+>		gator register %name%
 
 2.      Login as the user you just registered
-		gator login %name%
+>		gator login %name%
 
 3.      Add some RSS feeds.
-		gator addfeed “name” “feed url”
+>		gator addfeed “name” “feed url”
 
 4.      Aggregate the feeds: note that the feeds will be continually polled unit stopped “CTRL+C”. Polling interval valid arguments are 1s, 1m, 1h.
-		gator agg 1s
+> 		gator agg 1s
 
 5.      Browse your feed browse has an optional argument of number of feeds you’d like to see.
-		gator browse 5
+> 		gator browse 5
 
-**Remember if you want to clear the database use the “gator reset”, there is no going back after reset. The data in data base will be erased.**
+Remember if you want to clear the database use the “gator reset”, there is no going back after reset. The data in data base will be erased.
 
 
-#### **Full list of commands**
+### **Full list of commands**
 
-###### **register**
+##### **register**
 
-**Registers a new user, gator register user**
+Registers a new user, **gator register user**
 
-###### **login**
+##### **login**
 
-**Login as registered user, gator login user**
+Login as registered user, **gator login user**
 
-###### **Addfeed**
+##### **Addfeed**
 
-**Adds a new feed and subscribes the current user to it, gator  “feed name” “feed url”**
+Adds a new feed and subscribes the current user to it, **gator  “feed name” “feed url”**
 
-###### **feeds**
+##### **feeds**
 
-**Shows a list of available feeds, gator feeds**
+Shows a list of available feeds, **gator feeds**
 
-###### **follow**
+##### **follow**
 
-**Subscribes current user to a registered feed, gator follow “url”**
+Subscribes current user to a registered feed, **gator follow “url”**
 
-###### **following**
+##### **following**
 
-**Get a list of feeds you are subscribing to, gator following**
+Get a list of feeds you are subscribing to, **gator following**
 
-###### **users**
+##### **users**
 
-**Get a list of users, gator users**
+Get a list of users, **gator users**
 
-###### **agg**
+##### **agg**
 
-**Aggregate feeds must be done before browsing, gator agg 1s, or 1m, or 1h**
+Aggregate feeds must be done before browsing, **gator agg 1s, or 1m, or 1h**
 
-###### **unfollow**
+##### **unfollow**
 
-**Unsubscribe from a feed, gator unfollow “url”**
+Unsubscribe from a feed, **gator unfollow “url”**
 
-###### **browse**
+##### **browse**
 
-**return a list of most recently updated articles, gator browse #(number of articles you want to see)**
+return a list of most recently updated articles, **gator browse #***(number of articles you want to see)*
 
-###### **reset**
+##### **reset**
 
-wipe the database, gator reset
+wipe the database, **gator reset**
 
-Is a CLI tool for rss feed aggregation it is Operating System Agnostic.
 
