@@ -26,45 +26,48 @@ Use psql command line tool to connect to Postgres (in windows go to start and se
 
 Create database called gator
 
-Command Line Inactions
+Command Line Is
 
-CREATE DATABASE gator;
+>CREATE DATABASE gator;
 
 Connect to gator.
 
-\c gator
+>\c gator
 
 Set DB user password 'postgres'
 
-ALTER USER postgres PASSWORD 'postgres';
+>ALTER USER postgres PASSWORD 'postgres';
 
-If you suck with defaults this, is your database connection string.
+If you are using defaults this is your database connection string.
 
-postgres://postgres:postgres@localhost:5432/gator?sslmode=disable
+>postgres://postgres:postgres@localhost:5432/gator?sslmode=disable
 
-if you did not use defaults below is a string that you need to modify for your use case.
+if you did not use defaults below is a string that you need to modify for your use case. put it in notepad you will need it later.
 
-postgres://%username%:%password%@%ipaddress%:%port%/%databasename%?sslmode=disable
+>postgres://%username%:%password%@%ipaddress%:%port%/%databasename%?sslmode=disable
 
-Open the shell you are using; navigate to the repository that you have cloned.
+Open the shell, navigate to the repository that you have cloned.
 
 We need to configure the database, don’t worry don’t need to do this manually.
 
-Install goose its part of the go tool chain
+Install goose its part of the go tool chain. Enter the fallowing into shell 
 
-Enter the fallowing into shell “go install github.com/pressly/goose/v3/cmd/goose@latest“
+>go install github.com/pressly/goose/v3/cmd/goose@latest
 
-Once installed navigate to %repo%\sql\schema
+Once installed navigate to **%repo%\sql\schema**
 
 Run this command
 
-goose postgres "%your database connection string" up
+>goose postgres "%your database connection string" up
 
-goose postgres "postgres://postgres:postgres@localhost:5432/gator?sslmode=disable" up
+>goose postgres "postgres://postgres:postgres@localhost:5432/gator?sslmode=disable" up
 
 go back to root of the repository open and look at  .gatorconfig.json modify the {"db_url" value if necessary. Copy .gatorconfig.json to home directly for windows its %userprofile%.
 
-Now simply type “go install”
+Now simply type 
+
+>go install
+
 
 ### Usage
 
