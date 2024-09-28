@@ -99,67 +99,67 @@ Remember if you want to clear the database use the “gator reset”, there is n
 ### **Full list of commands**
 
 
-#### **==register==**
+#### **register**
 
 Registers a new user.
 >**gator register user**
 
 
-#### **==login==**
+#### **login**
 
 Login as registered user.
 >**gator login user**
 
 
-#### **==Addfeed==**
+#### **addfeed**
 
 Adds a new feed and subscribes the current user to it.
 >**gator  “feed name” “feed url”**
 
 
-#### **==feeds==**
+#### **feeds**
 
 Shows a list of available feeds.
 >**gator feeds**
 
 
-#### **==follow==**
+#### **follow**
 
 Subscribes current user to a registered feed.
 >**gator follow “url”**
 
 
-#### **==following==**
+#### **following**
 
 Get a list of feeds you are subscribing to.
 >**gator following**
 
 
-#### **==users==**
+#### **users**
 
 Get a list of users.
 >**gator users**
 
 
-#### **==agg==**
+#### **agg**
 
 Aggregate feeds must be done before browsing
 >**gator agg 1s, or 1m, or 1h**
 
 
-#### **==unfollow==**
+#### **unfollow**
 
 Unsubscribe from a feed.
 >**gator unfollow “url”**
 
 
-#### **==browse==**
+#### **browse**
 
 Return a list of most recently updated articles.
 > **gator browse #***(number of articles you want to see)*
 
 
-#### **==reset==**
+#### **reset**
 
 wipe the database.
 >**gator reset**
